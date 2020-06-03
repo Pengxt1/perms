@@ -41,7 +41,7 @@ public class MenuBizImpl implements MenuBiz {
 
     @Override
     public int updateByPrimaryKeySelective(Menu record) {
-        return 0;
+        return menuMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override

@@ -85,6 +85,12 @@
     </form>
     <div id="edit">
         <form class="layui-form" action="" id="MenuEditForm" style="display: none">
+            <div class="layui-form-item" style="display: none">
+                <label class="layui-form-label">菜单id</label>
+                <div class="layui-input-block">
+                    <input type="text" id="menuId" name="menuId" required  lay-verify="required"  autocomplete="off" class="layui-input" >
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">上级菜单</label>
                 <div class="layui-input-block">
@@ -231,6 +237,8 @@
                         title: '菜单图标', align: 'center', hide: true,
                         templet: '<p><i class="layui-icon {{d.menuIcon}}"></i></p>'
                     },
+                    {field: 'menuId', title: '菜单ID', hide: true,minWidth: 165},
+                    {field: 'parentId', title: '上级ID',hide: true, minWidth: 165},
                     {field: 'orderNum', title: '排序'},
                     {field: 'url', title: '请求地址'},
                     {field: 'menuType', title: '类型'},
@@ -252,6 +260,8 @@
             } else if (event === 'edit') {
                 layer.msg('编辑');
                 console.log(data);
+                $('select').find("option[value="+data.parentId+"]").prop('selected',true);
+                $("#menuId").val(data.menuId);
                 $("#menuName").val(data.menuName);
                 $("#url").val(data.url);
                 $("#perms").val(data.perms);
@@ -270,31 +280,7 @@
                         icon: 1,
                         title:"修改菜单",
                         area: ['600px', '400px'],
-                        success: function(layero, index){
-                            var div = layero.find('#edit');
-                            div.find("#menuId1").val(data.menuId);
-                            div.find("#menuName1").val(data.menuName);
-                            div.find("#url1").val(data.url);
-                            div.find("#perms1").val(data.perms);
-                            div.find("#icon1").val(data.icon);
-                            div.find("#orderNum1").val(data.orderNum);
-                            div.find("#remark1").val(data.remark);
-                            if (data.visible=="0"){
-                                div.find("#visible1").attr("checked","checked");
-                            } else {
-                                div.find("#visible2").attr("checked","checked");
-                            }
-                            console.log(data.menuType)
-                            if(data.menuType=="M"){
-                                div.find("#menuType1").attr("checked","checked");
-                            }else if(data.menuType=="F"){
-                                div.find("#menuType2").attr("checked","checked");
-                            }else if(data.menuType=="C"){
-                                div.find("#menuType3").attr("checked","checked");
-                            }
-                            form.render();
 
-                        }
                     }
                 );
                 obj.update({authorityName: '新的名称'});
